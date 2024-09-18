@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
-<!-- 선언문 : 변수, 메소드 선언 자바소스 --> 
+<!-- 선언문 : 변수, 메소드 선언 자바소스 -->
+<!-- 깃테스트 -->
 <%!
 	String name = "이순신";
 	public String getName() {
