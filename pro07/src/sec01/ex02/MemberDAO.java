@@ -8,20 +8,39 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class MemberDAO {
 	private PreparedStatement pstmt;
 	private Connection con;
-	private static final String driver = "oracle.jdbc.driver.OracleDriver";
-	private static final String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String user = "C##SCOTT";
-	private static final String pwd = "TIGER";
+	private DataSource dataFactory;
+	
+	/*
+	 * private static final String driver = "oracle.jdbc.driver.OracleDriver";
+	 * private static final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	 * private static final String user = "C##SCOTT"; private static final String
+	 * pwd = "TIGER";
+	 */
+	
+	public MemberDAO() {
+		try {
+			Context ctx = new InitialContext();
+			Context envContext = (Context)ctx.lookup("java:/comp/env");
+			dataFactory = (DataSource)envContext.lookup("jdbc/oracle");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public List<MemberVO> listMembers() {
 		List<MemberVO> list = new ArrayList<>();
 		
 		
 		try {
-			connDB();
+			//connDB();
+			con = dataFactory.getConnection();
 			String query = "select * from t_member";
 			System.out.println("prepareStatement: " + query);
 			pstmt = con.prepareStatement(query);
@@ -53,14 +72,14 @@ public class MemberDAO {
 		return list;
 	}
 	
-	private void connDB() {
-		try {
-			Class.forName(driver);
-			System.out.println("Oracle 드라이버 로딩 성공");
-			con = DriverManager.getConnection(url, user, pwd);
-			System.out.println("Connection 생성 성공");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	private void connDB() {
+//		try {
+//			Class.forName(driver);
+//			System.out.println("Oracle 드라이버 로딩 성공");
+//			con = DriverManager.getConnection(url, user, pwd);
+//			System.out.println("Connection 생성 성공");
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
