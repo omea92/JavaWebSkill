@@ -72,14 +72,41 @@ public class MemberDAO {
 		return list;
 	}
 	
-//	private void connDB() {
-//		try {
-//			Class.forName(driver);
-//			System.out.println("Oracle 드라이버 로딩 성공");
-//			con = DriverManager.getConnection(url, user, pwd);
-//			System.out.println("Connection 생성 성공");
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void addMember(MemberVO memberVO) {
+		try {
+			con = dataFactory.getConnection();
+			String id = memberVO.getId();
+			String pwd = memberVO.getPwd();
+			String name = memberVO.getName();
+			String email = memberVO.getEmail();
+			
+			String query = "insert into t_member";
+			query += " (id, pwd, name, email)";
+			query += " values (?, ?, ?, ?)";
+			System.out.println("prepareStatement: " + query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pwd);
+			pstmt.setString(3, name);
+			pstmt.setString(4, email);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void delMember(String id) {
+		try {
+			con = dataFactory.getConnection();
+			String query = "delete from t_member" + " where id=?";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
