@@ -7,11 +7,6 @@
 <title>Addition</title>
 </head>
 <body>
-<%
-	int num1 = 20;
-	int num2 = 10;
-	int add = num1 + num2;
-%>
-<%=num1%>+<%=num2%>=<%=add %>
+	${num1 }+${num2 }=${add }
 </body>
 </html>
