@@ -2,18 +2,22 @@
     pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
-	String name = request.getParameter("name");
-	String imgName = request.getParameter("imgName");
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>듀크이미지</title>
+<title>결과창</title>
 </head>
 <body>
-	<br><br>
-	<h1>이름은 <%=name %>입니다.</h1><br><br>
-	<img src="./image/<%=imgName %>" />
+<%
+	String userID = request.getParameter("userID");
+	if(userID.length() == 0) {
+%>
+	<jsp:forward page="login.jsp"/>
+<%
+	}
+%>
+	<h1>환영합니다 <%=userID %>님!! </h1>
 </body>
 </html>
